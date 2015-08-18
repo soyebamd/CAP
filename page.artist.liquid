@@ -1,0 +1,37 @@
+<div id="page">
+  <div class="collection-header">
+    <img src="{{ page.title | handleize | append: '-page-banner.png' | asset_url }}">
+    <h1> {{page.title}}  </h1>
+  </div>
+  <div class="container">
+    <div class="twelve columns"  id="page-content">     
+      {{ page.content }}
+    </div>  
+    <div class="four columns" id="page-sidebar">
+      {% if page_description %}
+      <p>{{ page_description }}</p>
+      {% endif %} 
+      <div id="page-social" class="{{ page.handle }}">
+        <ul>
+          <li><p>Share:</p></li>
+          <li>
+            <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+            <div style="width:75px;">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                 data-url="{{ shop.url }}{{ article.url }}"
+                 data-via="WearCAP"
+                 data-text="{{ article.title | escape }}"
+                 data-count="horizontal">Tweet</a>
+            </div>
+          </li>
+          <li>
+            <iframe src="//www.facebook.com/plugins/like.php?href={{ shop.url }}{{ like.url }}&amp;width=50&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=35&amp;appId=404076629734267" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:50px; height:35px;" allowTransparency="true"></iframe>
+          </li>
+          <li>
+            <a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;">Share on Tumblr</a>                    
+          </li>
+        </ul>
+      </div> 		
+    </div>
+  </div>
+</div>
