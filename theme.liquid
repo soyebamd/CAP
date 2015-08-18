@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+  <!-- Basic Page Needs
+================================================== -->
+  <meta charset="utf-8">
+  <title>{% if template == 'index' %}{% if page_title contains 'Welcome' %}{{ shop.name }} &ndash; Welcome{% else %}{{ page_title }}{% endif %}{% elsif template == '404' %}Page Not Found{% elsif page_title contains shop.name %}{{ page_title }}{% else %}{{ page_title }} &ndash; {{ shop.name }}{% endif %}</title>
+
+  <!-- Mobile Specific Metas
+================================================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">	
+  {% if page_description %}
+  <meta name="description" content="{{ page_description }}" />
+  {% endif %}	
+
+  <link rel="canonical" href="{{ canonical_url }}" />	
+
+
+  <!-- STYLES
+================================================== -->  
+  {{ 'styles.scss.css' | asset_url | stylesheet_tag }}  
+  {{ 'stylesheet.css' | asset_url | stylesheet_tag }}  
+  {{ 'themesettings.css'| asset_url | stylesheet_tag }}  
+  {{ 'grid.css'| asset_url | stylesheet_tag }}  
+  {{ content_for_header }}
+  <style>
+    #fav_button{
+      display: none !important;
+    }
+  </style>
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Neucha|Loved+by+the+King' rel='stylesheet' type='text/css'>
+
+  <!-- SCRIPT
+================================================== -->  
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js' | script_tag }}
+  <meta name="p:domain_verify" content="32afb1c1ad131d40f23f95b3113d17ce"/>
+  <meta name="msvalidate.01" content="E2DBE4CA8A0B8DDE41E26C9F986D8DA9" />
+
+  <!-- Begin Inspectlet Embed Code -->
+  <script type="text/javascript" id="inspectletjs">
+    window.__insp = window.__insp || [];
+    __insp.push(['wid', 570240426]);
+    (function() {
+      function __ldinsp(){var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); }
+      if (window.attachEvent){
+        window.attachEvent('onload', __ldinsp);
+      }else{
+        window.addEventListener('load', __ldinsp, false);
+      }
+    })();
+  </script>
+  <!-- End Inspectlet Embed Code -->
+</head>
+
+<body class="{{ template }} {% if template contains 'index' or template contains 'collection' or template contains "page.artist" or page.handle contains "about-us"  %} topimage {% else %} notopimage {% endif %} {% if template contains 'collection.artist' %} {% endif %}">
+
+  <div id="wrap">
+    <div id="main">
+      <!-- FIXED DESKTOP HEADER -->
+      {% include 'theme-header' %}
+
+      <!-- FIXED DESKTOP HEADER -->		
+      <!-- Begin content-->
+      <section id="content" class="clearfix layoutcontent">
+        {% if template == "list-collections" %}
+        <div id="collection" class="row">
+          <div class="span12">
+            <h1><span>Product Collections</span></h1>
+          </div> <!-- /.span12 -->
+        </div> <!-- /.row -->
+        <div class="row products masonry">
+          {% for collection in collections %}
+          {% unless collection.all_products_count == 0 or collection.handle == "frontpage" %}
+          {% include 'collection-loop' %}
+          {% endunless %}
+          {% endfor %}
+        </div> <!-- /#collection.row -->
+        {% else %}
+        {{ content_for_layout }}
+        {% endif %}
+      </section>
+      <!-- End content-->
+    </div>
+  </div>
+
+  {% include 'theme-footer' %}
+
+  {% include 'currencies' %}
+  {{ 'styles-jquery-bxslider.css' | asset_url | stylesheet_tag }}
+  {{ 'jquery.fancybox-1.3.4.css' | asset_url | stylesheet_tag }}
+
+  {{ 'jquery.fancybox-1.3.4.js' | asset_url | script_tag  }}
+
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+
+  {{ 'jquery-bxslider.js' | asset_url | script_tag }}
+  {{ 'jquery-easing.1.3.js' | asset_url | script_tag }}
+  {{ 'jquery-fitvids.js' | asset_url | script_tag }}
+  {{ 'jquery-zoom.js' | asset_url | script_tag }}
+  {{ 'popup_script.js' | asset_url | script_tag }}
+
+
+  {% if template contains 'customers' %}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}  
+
+  {{ 'jquery-app.js' | asset_url | script_tag }}
+  {{ 'jquery.ajaxchimp.js' | asset_url | script_tag }}
+
+  <script>
+    $('document').ready(function(){
+      $('#site-header #submit').click();
+    });
+  </script>
+  {% if template == "index" %}
+  {{'jquery.grid-a-licious.js' | asset_url | script_tag }}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#gridalicious img').each(function(){
+        var src = $(this).attr('src');
+        var src = Shopify.resizeImage(src,'large');
+        $(this).attr('src', src);
+      });
+
+      $("#gridalicious").gridalicious(
+        {
+          width: 280,
+          animationOptions: {
+            queue: true,
+            speed: 200,
+            duration: 300,
+            effect: 'fadeInOnAppear',
+            complete: function(){
+
+              $("#gridalicious .item .blogimg").each(function(){
+                var h =$(this).height();
+                $('.inner',$(this)).css('height',h).css('top','0%');
+              });
+
+              $('#gridalicious .item .blogimg img').load(function(){
+                var blogimg = $(this).closest('.blogimg');
+                var h =blogimg.height();    
+                console.log(h);
+                $('.inner',blogimg).css('height',h).css('top','0%');
+              });
+
+            }
+          }
+
+        });
+      $('#loadmore').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.get(url, function(data){
+
+          var filteredData = $(data).find("#gridalicious .item");
+
+          $("#gridalicious").gridalicious('append', filteredData);
+
+
+          var filteredloadmore = $(data).find("#loadmore");
+          if(filteredloadmore.length > 0){
+            $('#loadmore').attr('href',filteredloadmore.attr('href'));
+          }
+          else{
+            $('#loadmore').hide();
+          }
+        });
+      });
+    });
+  </script>
+  {% endif %}
+
+
+  <!-- SpurIT_Wishlist_Include -->
+  {% include 'wishlist-popup' %}
+  <!-- /SpurIT_Wishlist_Include -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50099841-1', 'commonartistproject.com');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+  </script>
+   <script id='SPI-CONFIG-SCRIPT'>
+                        {% if customer %}
+                            var SPI_SHOPIFY_USER_ID = {{ customer.id }}; 
+                            var SPI_SHOPIFY_EMAIL= '{{ customer.email }}'; 
+                        {% endif %}
+                        {% if product %} 
+                        var SPI_SHOPIFY_PRODUCT_ID = '{{ product.id }}'; 
+                        var SPI_SHOPIFY_PRODUCT_PRICE = '{{ product.price | money_without_currency }}'; 
+                        var SPI_SHOPIFY_PRODUCT_IMAGE = '{{product.featured_image}}'; 
+                        var SPI_SHOPIFY_PRODUCT_TITLE = {{product.title | json}}; 
+                        {% endif %}
+                    </script>   
+  <script src="http://platform.tumblr.com/v1/share.js"></script>
+
+  <script type="text/javascript">
+    adroll_adv_id = "6OD7XZIEZRHGDHJ342W5OP";
+    adroll_pix_id = "BLYJK26FXFATFERM44Q2GK";
+    (function () {
+      var oldonload = window.onload;
+      window.onload = function(){
+        __adroll_loaded=true;
+        var scr = document.createElement("script");
+        var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+        scr.setAttribute('async', 'true');
+        scr.type = "text/javascript";
+        scr.src = host + "/j/roundtrip.js";
+        ((document.getElementsByTagName('head') || [null])[0] ||
+         document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+        if(oldonload){oldonload()}};
+    }());
+  </script>
+  <!-- Start of Async HubSpot Analytics Code -->
+  <script type="text/javascript">
+    (function(d,s,i,r) {
+      if (d.getElementById(i)){return;}
+      var n=d.createElement(s),e=d.getElementsByTagName(s)[0];
+      n.id=i;n.src='//js.hs-analytics.net/analytics/'+(Math.ceil(new Date()/r)*r)+'/419884.js';
+      e.parentNode.insertBefore(n, e);
+    })(document,"script","hs-analytics",300000);
+  </script>
+  <!-- End of Async HubSpot Analytics Code -->  
+
+  <input type="hidden" name="_pc_params" value="{{ shop.permanent_domain }}:{{ customer.id }}" />
+  {% include'mailchimp-popup' %}
+
+
+ <!-- Google Code for Remarketing Tag -->
+<!--------------------------------------------------
+Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. See more information and instructions on how to setup the tag on: http://google.com/ads/remarketingsetup
+--------------------------------------------------->
+<script type="text/javascript">
+var google_tag_params = {
+ecomm_prodid: 'REPLACE_WITH_VALUE',
+ecomm_pagetype: 'REPLACE_WITH_VALUE',
+ecomm_totalvalue: '{{cart.total_price}} ',
+}; 
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 943363890;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/943363890/?value=0&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+
+
+  <!-- Social Intents www.socialintents.com -->
+  <script type='text/javascript'>
+    var socialintents_vars_feedback ={/*Modify the variables below to customize*/
+      'widgetId':'2c9f8d874a2f9999014a32cfb8fc098e',
+      'type':'feedback',
+      'tabLocation':'right',/*Tab location: top, bottom*/
+      'tabText':'Feedback',/*Text to display on the tab*/
+      'tabWidth':'180px',/*width of tab in pixels*/
+      'marginTop':'120px',
+      'popupHeight':'350px', /*height of the body of the popup page*/
+      'popupWidth':'560px', /*width of the popup page*/
+      'backgroundImg':'', /*http or https absolute url of background image for popup*/
+      'roundedCorners':'no', /*rounded corners on popup*/
+      'marginRight':'60px', /*margin from right side for tab.  Use marginRight or marginLeft*/
+      'tabColor':'#000000',/*color of the tab image*/
+      'urlPattern':'', /*urls on which to activate the widget*/
+      'headerTitle':'Give Feedback or Get Help'};
+    (function() {function socialintents(){
+      var siJsHost = (('https:' === document.location.protocol) ? 'https://' : 'http://');
+      var s = document.createElement('script');s.type = 'text/javascript';s.async = true;s.src = siJsHost+'www.socialintents.com/api/feedback/socialintents.js';
+      var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);
+    };
+                 if (window.attachEvent)window.attachEvent('onload', socialintents);else window.addEventListener('load', socialintents, false);
+                })();
+  </script>
+  
+<!-- Facebook Custom Audience Retargeting All Web Visitors -->
+
+<script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+  }
+  _fbq.push(['addPixelId', '374004586135440']);
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', 'PixelInitialized', {}]);
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=374004586135440&amp;ev=PixelInitialized" /></noscript>
+  
+</body>
+</html>
