@@ -1,0 +1,127 @@
+<div class="container  lorant fixsizeheader" id="product">
+  <div class="sixteen columns breadcumb">
+    <a href="/">{{shop.name}}</a>
+    <a href="/collection/{{product.vendor}}">{{product.vendor}}</a>
+    <span class="act">{{product.title}}</span>
+   
+  </div>
+  <div class="gridrow">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
+      <div class="gridrow">
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+          <div id="image-2" class="product-image-group bigimage ">
+            <img src="{{ product.featured_image | product_img_url: 'master' }}" id="masterimage" />
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 gridow-themb ">
+          <div class="product-image-group gridrow">
+            {% for img in product.images %}
+            <a class="clicker col-xs-3 col-sm-12 col-md-12 col-lg-12" href="{{ img | product_img_url: 'master' }}">
+              <img src="{{ img | product_img_url: 'original' }}"/>        
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+      <div class="prod-description" id="product-{{ product.id }}">
+        <h1 class="product_title">{{ product.title }}</h1>
+        <h2 class="product_h2"><span style="">COMMON ARTIST PROJECT</span>/{{ product.vendor }}</h2>
+        
+        <div class="price">
+          {% if product.available %}
+          {% if product.compare_at_price_max > product.price %}
+          <span class="oldprice"><del>{{ product.compare_at_price | money }}</del></span>
+          {% endif %}
+          {% if product.price_varies %}
+          <small><em>from</em></small>
+          {% endif %}
+          <span class="money" itemprop="price">{{ product.price | money }}</span>                
+          {% else %}
+          <span class="money" itemprop="price">{{ product.price | money }}</span> Sold Out
+          {% endif %}
+        </div>
+        <br>
+        {% if product.available %}
+        <form id="add-item-form" action="/cart/add" method="post" class="variants clearfix">
+
+          {% include 'product-variant-form' %}
+
+          <div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
+            <div class="purchase">
+              <button type="submit" id="add-to-cart" class="btn addtocart" name="add" >Add to Cart</button>
+              <div id="cart-animation" style="display:none">1</div>
+
+			  <br>
+              <button class="addtowishlist"><span>Add To Wishlist</span>
+              </button>
+              <br style="clear:both">
+            </div>
+            <h4>{% if product.tags contains 'preorder' %}Pre-Order is Available to Ship in 2 Weeks{% endif %}<br></h4>
+            
+            <h6><br>GIVING BACK<br></h6>
+            <p>A portion of each sale is donated to <a href="/pages/charities">Inner-City Arts.</a></p>
+            <br>
+          </div>
+
+        </form>			
+        {% else %}
+        <h1 align="center">Edition Currently Unavailable</h1>
+        <div id="sold-out">
+          <label>Enter Your Email Below to Pre-order Next Edition</label>
+          <input type="email" id="notify_email">
+          <button id="notify_button">Email when available</button>
+        </div>			
+        {% endif %}
+        <ul class="fd-product-tabs">
+          <li><a href="#desc" class="fd-product-tab-active">Description</a></li>
+          <li><a href="#collab" class="fd-product-tab">The Collaboration</a></li> 
+          <li><a href="#sizing" class="fd-product-tab">Sizing and Fit</a></li>
+          <li><a href="#box" class="fd-product-tab">Authenticity</a></li>
+          
+        </ul>
+        <div class="fd-product-tab-content">
+          <div class="fd-product-tab-pane" id="desc">
+            <p>{{ product.description }}</p>
+            {% if product.tag =='preorder'%}<p>Pre-Order is available to ship in 2 weeks</p>{% endif %}
+
+          </div>
+          <div class="fd-product-tab-pane" id="collab">
+            {{ product.metafields.product.collaboration }}
+          </div>      
+          <div class="fd-product-tab-pane" id="box">        
+            {{ product.metafields.product.authenticity }}
+          </div>
+          <div class="fd-product-tab-pane" id="sizing">        
+            {{ product.metafields.product.sizing }}
+          </div>
+
+        </div>
+<br><br>
+        {% include "shareproduct" %}
+      </div>
+    </div>
+  </div>
+</div> 
+<script>
+  var notificationCallback = function(data) {
+    var msg = '';
+    if (data.status == 'OK') {
+      msg = data.message; // just show the success message
+    } else { // it was an error
+      for (var k in data.errors) {  // collect all the error messages into a string
+        msg += data.errors[k].join();
+      }
+    }
+    alert(msg);
+  }
+
+  $('#notify_button').click(function(e) {
+    e.preventDefault();
+    var email = $('#notify_email').val(),
+        variantId = {{product.variants.first.id}}; // rendered by Liquid
+
+    BISPopover.create(email, variantId).then(notificationCallback);
+  })
+</script>
