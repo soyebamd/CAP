@@ -1,0 +1,238 @@
+<div id="home-slider-container">
+  <ul class="bxslider home-slider-container hidden-xs">
+    {% for i in (1..8) %}
+    {% assign slide_active = "slide" | append : forloop.index | append : "_active" %}
+    {% assign slide1auth = settings[slide_active] %}
+    {% if slide1auth == '2' %}        
+    {% assign slide_image_video  = 'imgvideo_slide' |append : forloop.index %}        
+    {% assign slide_image  = 'img_slide' |append : forloop.index |append : '.jpg' %}        
+    {% assign slide_video  = 'video_slide' |append : forloop.index %}        
+    <li class="hp_banner">
+      <img src="{{ slide_image | asset_url }}" class="mainimg"/>
+      <div class="bx-content-title">
+        {% assign slide_title  = 'slide' |append : forloop.index |append : '_title' %}            
+        <h1> {{settings[slide_title]}}</h1>
+        <div class="bx-content-btn">
+          {% assign slide_btn_first_text  = 'btn_slide' |append : forloop.index |append : '_first_text' %}    
+          {% assign slide_btn_first_url  = 'btn_slide' |append : forloop.index |append : '_first_url' %}    
+          {% assign slide_btn_second_text  = 'btn_slide' |append : forloop.index |append : '_second_text' %}    
+          {% assign slide_btn_second_url  = 'btn_slide' |append : forloop.index |append : '_second_url' %}   
+
+
+          {% assign slide_btn_first  = 'btn_slide' |append : forloop.index |append : '_first'  %}    
+          {% assign slide_btn_first_color  = 'btn_slide' |append : forloop.index |append : '_first_color' %}    
+          {% assign slide_btn_first_bgcolor  = 'btn_slide' |append : forloop.index |append : '_first_bgcolor' %}    
+          {% assign slide_btn_first_brcolor  = 'btn_slide' |append : forloop.index |append : '_first_brcolor' %}    
+
+          {% assign slide_btn_second  = 'btn_slide' |append : forloop.index |append : '_second' %}    
+          {% assign slide_btn_second_color  = 'btn_slide' |append : forloop.index |append : '_second_color' %}    
+          {% assign slide_btn_second_bgcolor  = 'btn_slide' |append : forloop.index |append : '_second_bgcolor' %}   
+          {% assign slide_btn_second_brcolor  = 'btn_slide' |append : forloop.index |append : '_second_brcolor' %}   
+
+          <style>
+            #{{slide_btn_first}}{
+              color:{{settings[slide_btn_first_color]}};
+              border:transparent 3px solid;
+              background:{{settings[slide_btn_first_bgcolor]}};
+            }
+
+            #{{slide_btn_first}}:hover{
+              color:{{settings[slide_btn_first_bgcolor]}};
+              border:{{settings[slide_btn_first_bgcolor]}} 3px solid;
+              background:transparent;
+            } 
+
+            #{{slide_btn_second}}{
+              color:{{settings[slide_btn_second_color]}};
+              border:transparent 3px solid;
+              background:{{settings[slide_btn_second_bgcolor]}};
+            }
+
+            #{{slide_btn_second}}:hover{
+              color:{{settings[slide_btn_second_bgcolor]}};
+              border:{{settings[slide_btn_second_bgcolor]}} 3px solid;
+              background:transparent;
+            }
+
+          </style>
+          {% if settings[slide_btn_first_text]  != "" &&  settings[slide_btn_first_text]  != nil %}
+          <a href="{{settings[slide_btn_first_url]}}" class="viewmorebtn {% if settings[slide_image_video] == '2' %} videoplay {% endif %}" data-src="{{settings[slide_video]}}" id="{{slide_btn_first}}"> {{settings[slide_btn_first_text]}}</a> 
+          {% endif %}
+          {% if settings[slide_btn_first_text]  != "" &&  settings[slide_btn_first_text]  != nil %}
+          {% if settings[slide_btn_second_text]  != "" &&  settings[slide_btn_second_text]  != nil %}
+          &nbsp;&nbsp;&nbsp;&nbsp; 
+          {% endif %}
+          {% endif %}
+          {% if settings[slide_btn_second_text]  != "" &&  settings[slide_btn_second_text]  != nil %}
+          <a href="{{settings[slide_btn_second_url]}}" class="viewmorebtn {% if settings[slide_image_video] == '2' %} videoplay {% endif %}" data-src="{{settings[slide_video]}}" id="{{slide_btn_second}}"> {{settings[slide_btn_second_text]}}</a>
+          {% endif %}
+        </div>
+      </div>
+      {% if settings[slide_image_video] == '2' %}
+      <div class="video">         
+      </div>
+      {% endif %}
+
+      <div class="bx-content-logo">
+        {% assign slide_logo_type  = 'cap_logo_color_slide' |append : forloop.index %}        
+        {% if settings[slide_logo_type] == "1" %}
+        {{ "cap-white-logo.png" | asset_url | img_tag }}
+        {% elsif settings[slide_logo_type] == "2" %}
+        {{ "cap-black-logo.png" | asset_url | img_tag }}
+        {% endif %}
+      </div> 
+      {% for j in (1..10) %}
+      {% capture useit %}banner_product_{{i}}_{{j}}_use{% endcapture %}
+      {% if settings[useit] %}
+      {% capture product_id %}banner_product_{{i}}_{{j}}_id{% endcapture %}
+      {% capture product_left %}banner_product_{{i}}_{{j}}_left{% endcapture %}
+      {% capture product_top %}banner_product_{{i}}_{{j}}_top{% endcapture %}
+      <div href="#{{settings[product_id]}}" data-id="{{settings[product_id]}}" class="imglink{{j}} imglink" style="left:{{settings[product_left]}}%;top:{{settings[product_top]}}%;z-index:{{myzindex}}">
+        <a class="rotate">+</a>
+        <div class="bannertooltip" id="tooltip_{{settings[product_id]}}">
+          {{"img-slider-bx_loader.gif"|asset_url | img_tag}}
+        </div>
+      </div>  
+      {% endif %}
+      {% endfor %}   
+    </li>  
+    
+    
+    
+    
+     <li class="hp_banner">
+      
+      <a href="http://commonartistproject.com/collections/mar">  <img src="{{ 'slider9.jpg' | asset_url}}"  class="mainimg"></a>
+      
+    </li>
+    
+    
+    
+    
+    <li class="hp_banner">
+      
+      <a href="http://commonartistproject.com/collections/shark-toof">  <img src="{{ 'slider6.jpg' | asset_url}}"  class="mainimg"></a>
+      
+    </li>
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    {% endif %}
+    {% endfor %}
+  </ul>
+  <ul class="bxslider home-slider-container visible-xs">
+    {% for i in (1..5) %}
+    {% assign slide_active = "mobileslide" | append : forloop.index | append : "_active" %}
+    {% assign slide1auth = settings[slide_active] %}
+    {% if slide1auth == '2' %}        
+    {% assign slide_image_video  = 'imgvideo_mobileslide' |append : forloop.index %}        
+    {% assign slide_image  = 'img_mobileslide' |append : forloop.index |append : '.jpg' %}        
+    {% assign slide_video  = 'video_mobileslide' |append : forloop.index %}        
+    <li class="hp_banner">
+      {% assign slide_btn_first_url  = 'btn_mobileslide' |append : forloop.index |append : '_first_url' %}
+      <a href="{{settings[slide_btn_first_url]}}" >
+        <img src="{{ slide_image | asset_url }}" class="mainimg"/>
+      </a>
+      <div class="bx-content-title">
+        {% assign slide_title  = 'mobileslide' |append : forloop.index |append : '_title' %}            
+        <a href="{{settings[slide_btn_first_url]}}" style="color:#fff;">
+          <h1>          
+            {{settings[slide_title]}}          
+          </h1>
+        </a>          
+        <div class="bx-content-btn">
+          {% assign slide_btn_first_text  = 'btn_mobileslide' |append : forloop.index |append : '_first_text' %}    
+          {% assign slide_btn_first_url  = 'btn_mobileslide' |append : forloop.index |append : '_first_url' %}    
+          {% assign slide_btn_second_text  = 'btn_mobileslide' |append : forloop.index |append : '_second_text' %}    
+          {% assign slide_btn_second_url  = 'btn_mobileslide' |append : forloop.index |append : '_second_url' %}   
+
+
+          {% assign slide_btn_first  = 'btn_mobileslide' |append : forloop.index |append : '_first'  %}    
+          {% assign slide_btn_first_color  = 'btn_mobileslide' |append : forloop.index |append : '_first_color' %}    
+          {% assign slide_btn_first_bgcolor  = 'btn_mobileslide' |append : forloop.index |append : '_first_bgcolor' %}    
+          {% assign slide_btn_first_brcolor  = 'btn_mobileslide' |append : forloop.index |append : '_first_brcolor' %}    
+
+          {% assign slide_btn_second  = 'btn_mobileslide' |append : forloop.index |append : '_second' %}    
+          {% assign slide_btn_second_color  = 'btn_mobileslide' |append : forloop.index |append : '_second_color' %}    
+          {% assign slide_btn_second_bgcolor  = 'btn_mobileslide' |append : forloop.index |append : '_second_bgcolor' %}   
+          {% assign slide_btn_second_brcolor  = 'btn_mobileslide' |append : forloop.index |append : '_second_brcolor' %}   
+
+          <style>
+            #{{slide_btn_first}}{
+              color:{{settings[slide_btn_first_color]}};
+              /*border:{{settings[slide_btn_first_color]}} 3px solid;*/
+              background:{{settings[slide_btn_first_bgcolor]}};
+            }
+
+            #{{slide_btn_first}}:hover{
+              color:{{settings[slide_btn_first_bgcolor]}};
+              /*border:{{settings[slide_btn_first_bgcolor]}} 3px solid;*/
+              background:{{settings[slide_btn_first_color]}};
+            } 
+
+            #{{slide_btn_second}}{
+              color:{{settings[slide_btn_second_color]}};
+              /*border:{{settings[slide_btn_second_color]}} 3px solid;*/
+              background:{{settings[slide_btn_second_bgcolor]}};
+            }
+
+            #{{slide_btn_second}}:hover{
+              color:{{settings[slide_btn_second_bgcolor]}};
+              /*border:{{settings[slide_btn_second_bgcolor]}} 3px solid;*/
+              background:{{settings[slide_btn_second_color]}};
+            }
+
+          </style>
+          {% if settings[slide_btn_first_text]  != "" &&  settings[slide_btn_first_text]  != nil %}
+          <a href="{{settings[slide_btn_first_url]}}" class="viewmorebtn {% if settings[slide_image_video] == '2' %} videoplay {% endif %}" data-src="{{settings[slide_video]}}" id="{{slide_btn_first}}"> {{settings[slide_btn_first_text]}}</a> 
+          {% endif %}
+          {% if settings[slide_btn_first_text]  != "" &&  settings[slide_btn_first_text]  != nil %}
+          {% if settings[slide_btn_second_text]  != "" &&  settings[slide_btn_second_text]  != nil %}
+          &nbsp;&nbsp;&nbsp;&nbsp; 
+          {% endif %}
+          {% endif %}
+          {% if settings[slide_btn_second_text]  != "" &&  settings[slide_btn_second_text]  != nil %}
+          <a href="{{settings[slide_btn_second_url]}}" class="viewmorebtn {% if settings[slide_image_video] == '2' %} videoplay {% endif %}" data-src="{{settings[slide_video]}}" id="{{slide_btn_second}}"> {{settings[slide_btn_second_text]}}</a>
+          {% endif %}
+        </div>
+      </div>
+      {% if settings[slide_image_video] == '2' %}
+      <div class="video">         
+      </div>
+      {% endif %}
+
+      <div class="bx-content-logo">
+        {% assign slide_logo_type  = 'cap_logo_color_slide' |append : forloop.index %}        
+        {% if settings[slide_logo_type] == "1" %}
+        {{ "cap-white-logo.png" | asset_url | img_tag }}
+        {% elsif settings[slide_logo_type] == "2" %}
+        {{ "cap-black-logo.png" | asset_url | img_tag }}
+        {% endif %}
+      </div> 
+      {% for j in (1..10) %}
+      {% capture useit %}banner_product_{{i}}_{{j}}_use{% endcapture %}
+      {% if settings[useit] %}
+      {% capture product_id %}banner_product_{{i}}_{{j}}_id{% endcapture %}
+      {% capture product_left %}banner_product_{{i}}_{{j}}_left{% endcapture %}
+      {% capture product_top %}banner_product_{{i}}_{{j}}_top{% endcapture %}
+      <div href="#{{settings[product_id]}}" data-id="{{settings[product_id]}}" class="imglink{{j}} imglink" style="left:{{settings[product_left]}}%;top:{{settings[product_top]}}%;z-index:{{myzindex}}">
+        <a class="rotate">+</a>
+        <div class="bannertooltip" id="tooltip_{{settings[product_id]}}">
+          {{"img-slider-bx_loader.gif"|asset_url | img_tag}}
+        </div>
+      </div>  
+      {% endif %}
+      {% endfor %}   
+    </li>    
+    {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+{% include 'popupproductscript' %}
